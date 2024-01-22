@@ -1,0 +1,132 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Nota{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Modificar Nota | Nota</label>
+            </header>
+
+            <br>
+            <div class="m-1">
+                <!-- <form action="">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="form-group col-lg-6 col-md-6">
+                            <label for="exampleInputPassword1">Curso-Paralelo:</label>
+                            <select class="form-select" name="cp" aria-label="Default select example" required >
+                                <option value="">--- seleccionar ---</option>
+                                {% for sd in cp %}
+                                <option value="{{sd.id}}">{{sd.curso}}  {{sd.paralelo}} </option>
+                                {% endfor%}
+                              </select>
+                        </div>
+                        <div class="form-group col-lg-6 col-md-6">
+                            <label for="exampleInputPassword1">Periodo:</label>
+                            <select class="form-select" name="pe" aria-label="Default select example" required >
+                                <option value="">--- seleccionar ---</option>
+                                {% for per in pe %}
+                                <option value="{{per.id}}">{{per.nombre_periodo}}</option>
+                                {% endfor%}
+                              </select>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-primary m-4  col-auto w-25">
+                          Buscar <i class="bi bi-search"></i>
+                        </button>
+                      </div>
+                </form> -->
+            </div>
+            <br>
+        <!-- <form action="{% url 'notaagg' %}" method="post" >
+            {% csrf_token %}
+            <div class="row">
+                <input value="{{request.user.first_name}} {{request.user.last_name}}" type="text" class="form-control" hidden="hidden" name="usuario">
+            </div> -->
+            <!-- <div class="row mb-5">
+                <div class="form-group col-lg-6 col-md-6">
+                    <label for="exampleInputPassword1">Trimestre-Parcial:</label>
+                    <select class="form-select" name="tp" aria-label="Default select example" required>
+                        <option value="">--- seleccionar ---</option>
+                        {% for t in tr %}
+                        <option value="{{t.id}}">{{t.trimestre}} {{t.parcial}}</option>
+                        {% endfor%}
+                      </select>
+                </div>
+                <div class="form-group col-lg-6 col-md-6">
+                    <label for="exampleInputPassword1">Materia:</label>
+                    <select class="form-select" name="mat" aria-label="Default select example" required>
+                        <option value="">--- seleccionar ---</option>
+                        {% for m in ma %}
+                        <option value="{{m.id}}">{{m.nombre_materia}}</option>
+                        {% endfor%}
+                      </select>
+                </div>
+            </div> -->
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th>Estudiante</th>
+                                <th>Curso-Paralelo</th>
+                                <th>Nota</th>
+                                <th>Nota</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody class="text-danger">
+                            {% for adn in not %}
+                            
+                            <tr>
+                                <td>{{adn.matricula.estudiante.apellido}} {{adn.matricula.estudiante.nombre}}</td>
+                                <td>{{adn.matricula.curso_paralelo}}</td>
+                                <td>{{adn.trimestre_parcial}}</td>
+                                <td>{{adn.materia}}</td>
+                                <td>{{adn.puntaje}}</td>
+                                <td>
+                                  <button title="Modificar" type="button"class="btn bg-primary text-white " data-bs-toggle="modal"
+                                        href="#h-{{forloop.counter}}">
+                                        <i class="bi bi-pencil-square"></i>
+                                  </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+            </div>        
+        </div>
+    </main>
+</div>
+
+
+
+ 
+
+{% endblock %}
+
+{% block content1 %} {% endblock %}

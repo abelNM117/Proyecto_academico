@@ -1,0 +1,158 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Usuarios{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Admisión | Mantenimiento | Profesores</label>
+            </header>
+
+            <br>
+            <div class="d-flex mb-3">
+             
+                <!-- <a href="{% url 'inactivoUsuario' %}" class=" btn bg-primary text-white "> inactivos</a> -->
+            </div>
+            <br>
+            
+
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Fotos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                            {% for presenta in x %}
+                            <tr>
+                                <td>{{presenta.nombre}}</td>
+                                <td>{{presenta.apellido}}</td>
+                                <td>
+                                {% if presenta.imagen %}
+                                    <img src="{{presenta.imagen.url}}" class="rounded" alt="foto deperfil" width="60px" height="60px">
+                                    {% else %}
+                                    <img src="/media/PROFESORES/logooo.jpg" class="rounded" alt="foto deperfil" width="60px" height="60px">
+                                 {% endif %}
+                                </td>
+                                <td>
+                                    <!-- <button title="modificar" type="button" class="btn bg-primary text-white " data-bs-toggle="modal"
+                                        href="#h-{{forloop.counter}}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button> -->
+                                    <button title="eliminar" class="btn text-white bg-danger" onclick="eliminar({{presenta.id}})"
+                                        title="eliminar"><i class="bi bi-trash3-fill"></i></button>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+
+
+<!-- modal de modificar -->
+<!-- {% for i in x %}
+<div class="modal fade" id="h-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Jornada</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" action="/updateprofesor/{{i.id}}">
+                {% csrf_token %}
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <input name="usuario_id" value="{{i.usuario_id.id}}" type="text" class="form-control" hidden="hidden">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nombres</label>
+                        <input name="name" value="{{i.nombre}}" type="text" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Apellido</label>
+                        <input name="apellido" value="{{i.apellido}}" type="text" class="form-control" >
+                    </div>
+
+
+      
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="update">GUARDAR</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endfor %} -->
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function eliminar(id) {
+        Swal.fire({
+                "title": "¿Estas seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "Cancelar",
+                "confirmButtonText": "Eliminar",
+                "reverseButtons": true,
+                "cancelButtonColor": "#dc3545",
+                "confirmButtonColor": "#0d6efd"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/elimina-Profe/" + id + "/"
+                }
+            })
+    }
+</script>
+
+{% endblock %}
+
+
+{% block content1 %} {% endblock %}

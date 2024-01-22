@@ -1,0 +1,70 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Nota{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 "> Registro | Notas</label>
+            </header>
+
+            <br>
+            
+            <br>
+       
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Paralelo</th>
+                                <th>Materia</th>
+                                <th>Jornada</th>
+                                <th>Periodo</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody class="text-danger">
+                  
+                            {% for i in pro %}
+                            <tr>
+                                <td>{{i.curso_paralelo.curso}}</td>
+                                <td>{{i.curso_paralelo.paralelo}}</td>
+                                <td>{{i.materia}}</td>
+                                <td>{{i.jornada}}</td>
+                                <td>{{i.periodo}}</td>
+                                <td><a type="button" class="btn bg-primary text-white"  href="{% url 'nota1' i.id %}">
+                                    <i class="bi bi-person-lines-fill"></i>
+                                </a></td>   
+                            </tr>  
+                            {% endfor %}
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>    
+        </div>
+    </main>
+</div>
+
+{% endblock %}
+
+{% block content1 %} {% endblock %}

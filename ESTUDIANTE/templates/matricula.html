@@ -1,0 +1,91 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Estudiante{% endblock %}
+
+
+{% block content %}
+
+<style>
+  .jj{
+    border-style: solid;
+    border-radius: 10px;
+    border-color: #0d6efd;
+
+  }
+</style>
+
+<div id="layoutSidenav_content">
+    <main>
+      <div class="container-fluid px-4">
+        <header class="mt-3 card-header bg-color-f text-color text-center justify-content-center border">
+            <label class="mt-4 m-4 h2 ">Matricula</label>
+        </header>
+
+        <div class="jj mt-5 container ">
+          <div class="row">
+            <div class="col">
+              <form action="{% url 'agg_matri' %}" method="POST" class="was-validated" enctype="multipart/form-data">
+                {% csrf_token  %}
+                <h3 class="text-primary text-center">Formulario de matriculación</h3>
+                <div class="row mt-4 mb-4">
+                  <label class="col-md-3">Estudiante:</label>
+                  <div class="col-md-4">
+                    <select name="estudiante" class="form-select">
+                      <option value="{{est.id}}">{{est.nombre}} {{est.apellido}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <label class="col-md-3">Periodo:</label>
+                  <div class="col-md-4">
+                    <select name="periodo" class="form-select" required aria-label="select example">
+                      <option value="">--- seleccionar ---</option>
+                      {% for x in uno %}
+                      <option value="{{x.id}}">{{x.nombre_periodo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <label class="col-md-3">Jornada:</label>
+                  <div class="col-md-4">
+                    <select name="jornada" class="form-select" required aria-label="select example">
+                      <option value="">--- seleccionar ---</option>
+                      {% for x in dos %}
+                      <option value="{{x.id}}">{{x.nombre_jornada}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <label class="col-md-3">Curso-Paralelo:</label>
+                  <div class="col-md-4">
+                    <select name="cupa" class="form-select" required aria-label="select example">
+                      <option value="">--- seleccionar ---</option>
+                      {% for x in tres %}
+                      <option value="{{x.id}}">{{x.curso}}  {{x.paralelo}}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-4 mt-4 " >
+                  <div class="col-md-4 mx-auto" style="width:150px;">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                  </div>
+                </div> 
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block content1 %} {% endblock %}

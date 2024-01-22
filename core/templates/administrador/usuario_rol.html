@@ -1,0 +1,197 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA |Usuario Roles{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Configuración | Permisos</label>
+            </header>
+
+            <br>
+            <div class="m-1">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-person-plus-fill"> Crear</i>
+                </button>
+                <!-- <a href="#" class="btn bg-primary text-white "><i class="bi bi-person-plus-fill"> CREAR</i></a> -->
+            </div>
+            <br>
+
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+
+                                <th>Usuario</th>
+                                <th>Rol</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody class="text-danger">
+                            {% for presenta in x %}
+
+                            <tr>
+                                <td>{{presenta.user}}</td>
+                                <td>{{presenta.rol}}</td>
+                                <td>{{presenta.estado}}</td>
+
+                                <td>
+                                    <button title="modificar" type="button" class="btn bg-primary text-white " data-bs-toggle="modal"
+                                        href="#h-{{forloop.counter}}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    
+                                    <!-- <a href="#exampleModal2-{{forloop.counter}}" class="btn bg-primary text-white "><i class="bi bi-pencil-square"></i></a> -->
+                                    <a title="eliminar"  class= "btn text-white bg-danger" onclick="eliminar({{presenta.id}})" ><i
+                                        class="bi bi-trash3-fill"></i></a>
+
+                    
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'ROUS' %}" method="post">
+                <div class="modal-body">
+                    {% csrf_token  %}
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">USUARIO:</label>
+                        <select id="user" name="user" class="form-select">
+                            <option value="">Todos los usuarios</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                      <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">ROL:</label>
+                        <select id="disabledSelect"  name="rol"  class="form-select">
+                            {% for i in ro %}
+                            <option value="{{ i.id }}">{{ i.id }} {{ i.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary" value="Add">GUARDAR</button>
+                    </div>
+                </div>    
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal de modificar -->
+{% for i in x %}
+<div class="modal fade" id="h-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Jornada</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" action="/updaterolU/{{i.id}}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">USUARIO</label>
+                        <select id="user" name="user1" class="form-select">
+                            <option value="{{ i.user.id }}">{{ i.user }} </option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}">{{ user.first_name }} {{ user.last_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                      <div class="mb-3">
+                        <label for="disabledSelect" class="form-label">ROL</label>
+                        <select id="disabledSelect"  name="rol1"  class="form-select">
+                            <option value="{{ i.rol.id }}">{{ i.rol }} </option>
+                            {% for i in ro %}
+                            <option value="{{ i.id }}">{{ i.id }} {{ i.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                      </div>
+
+      
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="update">GUARDAR</button>
+                </div>
+            
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function eliminar(id){
+        Swal.fire({
+            "title": "¿Estas seguro?",
+            "text": "Esta acción no se puede deshacer",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText":"Cancelar",
+            "confirmButtonText":"Eliminar",
+            "reverseButtons": true,
+            "cancelButtonColor":"#dc3545",
+            "confirmButtonColor":"#0d6efd"
+        })
+        .then(function(result){
+            if(result.isConfirmed){
+                window.location.href= "/eliminar-RolU/" + id + "/"
+            }
+        })
+    }
+</script>
+
+{% endblock %}
+{% block content1 %} {% endblock %}

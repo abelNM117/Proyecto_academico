@@ -1,0 +1,84 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Nota{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Notas de {{p.materia}} del {{p.curso_paralelo.curso}} {{p.curso_paralelo.paralelo}}</label>
+            </header>
+
+            <br>
+            
+            <br>
+            <form action="{% url 'modificarN' %}" method="post">
+                {% csrf_token %}
+            <input value="{{request.user.first_name}} {{request.user.last_name}}" type="text"  hidden="hidden" class="form-control"  name="usuario">
+            <input value="{{p.materia.id}}" type="text" class="form-control"  hidden="hidden"  name="materia">
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+                                <th>Foto</th>
+                                <th >Apellidos-Nombres</th>
+                                <th>1er_Trimestre</th>
+                                <th>2do_Trimestre</th>
+                                <th>3er_Trimestre</th>
+                                <th>Nota Final</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-danger">
+                            {% for i in x %}
+                            <tr>
+                                <td>{% if i.matricula.estudiante.imagen %}
+                                    <img src="{{ i.matricula.estudiante.imagen.url }}" class="rounded" alt="foto deperfil" width="60px" height="60px">
+                                    {% else %}
+                                    <img src="/media/ESTUDIANTE/logoest.jpg" class="rounded" alt="foto deperfil" width="60px" height="60px">
+                                    {% endif %}</td>
+                                <td><select name="matriculax_{{ i.id }}" class="form-select" required aria-label="select example" required>
+                                    <option value="{{i.matricula.id}}">{{i.matricula.estudiante.apellido}} {{i.matricula.estudiante.nombre}} </option>
+                                    </select>
+                                    <input type="text"  value="{{i.jornada.id}}" class="form-control w-1" hidden="hidden" name="jornada" required>
+                                </td>
+                                <td><input type="text"  value="{{i.puntaje1}}" class="form-control w-1" name="nota1_{{ i.id }}" required></td>
+                                <td><input type="text"  value="{{i.puntaje2}}" class="form-control " name="nota2_{{ i.id }}" required></td>
+                                <td><input type="text"  value="{{i.puntaje3}}"  class="form-control " name="nota3_{{ i.id }}" required></td>
+                                <td>{{i.promedio_general}}</td> 
+                                
+                            </tr>  
+                            {% endfor %} 
+                        </tbody>
+
+
+                    </table>
+                </div>
+                
+            </div>
+            <input type="hidden" name="est_ids" value="{% for i in x %}{{ i.id }}{% if not forloop.last %},{% endif %}{% endfor %}">
+            <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary m-4  col-auto w-25">
+                  Guardar <i class="bi bi-save"></i>
+                </button>
+            </div> 
+        </form>          
+        </div>
+    </main>
+</div>
+
+{% endblock %}
+
+{% block content1 %} {% endblock %}

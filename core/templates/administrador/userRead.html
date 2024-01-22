@@ -1,0 +1,213 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Usuarios{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Configuración | Usuarios</label>
+            </header>
+
+            <br>
+            <div class="d-flex mb-3">
+                <button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-person-plus-fill"> Crear</i>
+                </button>
+
+                <a href="{% url 'inactivoUsuario' %}" class=" btn bg-primary text-white ms-auto p-2 "> inactivos</a>
+                
+            </div>
+            <br>
+            
+
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+
+                                <th>Usuario</th>
+                                <th>Correo</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                            {% for presenta in x %}
+                            <tr>
+                                <td>{{presenta.username}}</td>
+                                <td>{{presenta.email}}</td>
+                                <td>{{presenta.first_name}}</td>
+                                <td>{{presenta.last_name}}</td>
+                                <td>
+                                    <button title="modificar" type="button" class="btn bg-primary text-white " data-bs-toggle="modal"
+                                        href="#h-{{forloop.counter}}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button title="eliminar" class="btn text-white bg-danger" onclick="eliminar({{presenta.id}})"
+                                        title="eliminar"><i class="bi bi-trash3-fill"></i></button>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+<!-- modal de crear -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'adduser' %}" method="post">
+                <div class="modal-body">
+                    {% csrf_token  %}
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nombres</label>
+                        <input type="text" class="form-control" name="name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" name="lastname">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email </label>
+                        <input type="email" class="form-control" name="email" aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">nombre de usuario</label>
+                        <input type="text" class="form-control" name="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" name="password">
+                    </div>
+                    <!-- <div class="mb-3">
+                    <input type="password" class="form-control" name="supervisor" value="true">                    
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" name="">                    
+                </div> -->
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" value="Add">GUARDAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal de modificar -->
+{% for i in x %}
+<div class="modal fade" id="h-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" action="/update/{{i.id}}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Nombres</label>
+                        <input name="name1" value="{{i.first_name}}" type="text" class="form-control" id="#">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Apellidos</label>
+                        <input name="lastname1" value="{{i.last_name}}" type="text" class="form-control" id="#">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email </label>
+                        <input name="email1" value="{{i.email}}" type="email" class="form-control" id="#"
+                            aria-describedby="emailHelp">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">nombre de usuario</label>
+                        <input name="username1" value="{{i.username}}" type="text" class="form-control" id="#">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input name="password1" type="password" class="form-control" id="#">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="update">GUARDAR</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block script %}
+
+<script>
+    function eliminar(id) {
+        Swal.fire({
+                "title": "¿Estas seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "Cancelar",
+                "confirmButtonText": "Eliminar",
+                "reverseButtons": true,
+                "cancelButtonColor": "#dc3545",
+                "confirmButtonColor": "#0d6efd"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/elimina-U/" + id + "/"
+                }
+            })
+    }
+</script>
+
+{% endblock %}
+
+

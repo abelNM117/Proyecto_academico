@@ -1,0 +1,94 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Usuarios{% endblock %}
+
+
+{% block content %}
+
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Periodos | Inactivos</label>
+            </header>
+
+            <br>
+            <div class="d-flex mb-3">
+                <a href="{% url 'periodo_m' %}" class=" btn bg-primary text-white p-2 "> Activo</a>
+                
+            </div>
+            <br>
+            
+
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+
+                                <th>Periodo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                            {% for presenta in x %}
+                            <tr>
+                                <td>{{presenta.nombre_periodo}}</td>
+                            
+                    
+                                <td>
+                                    <button class="btn bg-primary text-white" onclick="activar({{presenta.id}})" title="activar">
+                                        <i class="bi bi-check2-square"></i></button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+
+{% endblock %}
+{% block script %}
+<script>
+    function activar(id) {
+        Swal.fire({
+                "title": "¿Estas seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "Cancelar",
+                "confirmButtonText": "Activar",
+                "reverseButtons": true,
+                "cancelButtonColor": "#dc3545",
+                "confirmButtonColor": "#0d6efd"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/activado-P/" + id + "/"
+                }
+            })
+    }
+</script>
+{% endblock %}
+{% block content1 %} {% endblock %}

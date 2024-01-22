@@ -1,0 +1,255 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Usuarios{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br>
+
+
+            <header class="card-header bg-color-f text-color text-center justify-content-center border">
+                <label class="mt-4 m-4 h2 ">Mantenimiento | Asignar Curso</label>
+            </header>
+
+            <br>
+            <div class="d-flex mb-3">
+                <button type="button" class="btn btn-primary p-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="bi bi-person-plus-fill"> Crear</i>
+                </button>
+                
+            </div>
+            <br>
+            
+
+            <div class="card mb-4">
+                <div class="card-header bg-color-f text-color ">
+                    <i class="fas fa-table me-1"></i><label>Usuarios disponibles en el sistema</label>
+                </div>
+                <div class="card-body text-center align-items-center">
+                    <table id="datatablesSimple">
+                        <thead>
+                            <tr>
+
+                                <th>Curso-Paralelo</th>
+                                <th>Materia</th>
+                                <th>jornada</th>
+                                <th>Profesor</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+
+
+                        <tbody>
+                            {% for presenta in x %}
+                            <tr>
+                                <td>{{presenta.curso_paralelo}}</td>
+                                <td>{{presenta.materia}}</td>
+                                <td>{{presenta.jornada}}</td>
+                                <td>{{presenta.profesor}}</td>
+                    
+                                <td>
+                                    <button title="modificar" type="button" class="btn bg-primary text-white " data-bs-toggle="modal"
+                                        href="#h-{{forloop.counter}}">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </button>
+                                    <button title="eliminar" class="btn text-white bg-danger" onclick="eliminar({{presenta.id}})"
+                                        title="eliminar"><i class="bi bi-trash3-fill"></i></button>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+
+<!-- modal de crear -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Crear Asignación de Curso</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="{% url 'addprofecm' %}" method="post">
+                <div class="modal-body">
+                    {% csrf_token  %}
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Curso-Paralelo:</label>
+                        <select id="disabledSelect" name="curso" class="form-select">
+                            {% for i in cupa %}
+                            <option value="{{i.id}}">{{i.curso}} {{i.paralelo}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Materia:</label>
+                        <select id="disabledSelect" name="materia" class="form-select">
+                            {% for i in mat %}
+                            <option value="{{i.id}}">{{i.nombre_materia}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Profesor:</label>
+                        <select id="disabledSelect" name="profesor" class="form-select">
+                            {% for i in pr %}
+                            <option value="{{i.id}}">{{i.nombre}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jornada</label>
+                        <select id="disabledSelect" name="jornada" class="form-select">
+                            {% for i in cinco %}
+                            <option value="{{i.id}}">{{i.nombre_jornada}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Periodo:</label>
+                        <select id="disabledSelect" name="periodo" class="form-select">
+                            {% for i in seis %}
+                            <option value="{{i.id}}">{{i.nombre_periodo}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary" value="Add">GUARDAR</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- modal de modificar -->
+{% for i in x %}
+<div class="modal fade" id="h-{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header text-bg-primary">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar Jornada</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <form method="post" action="/updateprofecm/{{i.id}}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Curso-Paralelo:</label>
+                        <select id="disabledSelect" name="curso1" class="form-select">
+                            <option value="{{i.curso_paralelo.id}}">{{i.curso_paralelo}} </option>
+                            {% for i in cupa %}
+                            <option value="{{i.id}}">{{i.curso}} {{i.paralelo}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Materia:</label>
+                        <select id="disabledSelect" name="materia1" class="form-select">
+                            <option value="{{i.materia.id}}">{{i.materia}} </option>
+                            {% for i in mat %}
+                            <option value="{{i.id}}">{{i.nombre_materia}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Profesor:</label>
+                        <select id="disabledSelect" name="profesor1" class="form-select">
+                            <option value="{{i.profesor.id}}">{{i.profesor}} </option>
+                            {% for i in pr %}
+                            <option value="{{i.id}}">{{i.nombre}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Jornada</label>
+                        <select id="disabledSelect" name="jornada1" class="form-select">
+                            <option value="{{i.jornada.id}}">{{i.jornada}} </option>
+                            {% for i in cinco %}
+                            <option value="{{i.id}}">{{i.nombre_jornada}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+                    <div class="mb-3">
+                        
+                        <select id="disabledSelect" name="periodo1" class="form-select" hidden="hidden">
+                            <option value="{{i.periodo.id}}">{{i.periodo}} </option>
+                            {% for i in seis %}
+                            <option value="{{i.id}}">{{i.nombre_periodo}}</option>
+                            {% endfor %}
+                          </select>
+                    </div>
+      
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" value="update">GUARDAR</button>
+                </div>
+            
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function eliminar(id) {
+        Swal.fire({
+                "title": "¿Estas seguro?",
+                "text": "Esta acción no se puede deshacer",
+                "icon": "question",
+                "showCancelButton": true,
+                "cancelButtonText": "Cancelar",
+                "confirmButtonText": "Eliminar",
+                "reverseButtons": true,
+                "cancelButtonColor": "#dc3545",
+                "confirmButtonColor": "#0d6efd"
+            })
+            .then(function (result) {
+                if (result.isConfirmed) {
+                    window.location.href = "/elimina-profecm/" + id + "/"
+                }
+            })
+    }
+</script>
+
+{% endblock %}
+
+
+{% block content1 %} {% endblock %}

@@ -1,0 +1,293 @@
+{% extends "inicioAdmin.html" %}
+
+
+{% block title %}SA | Estudiante{% endblock %}
+
+
+{% block content %}
+
+
+
+<div id="layoutSidenav_content">
+  <main>
+    <div class="container-fluid px-4">
+      <br>
+
+
+      <header class="card-header bg-color-f text-color text-center justify-content-center border">
+        <label class="mt-4 m-4 h2 ">Datos del Estudiante</label>
+      </header>
+
+      <br>
+
+      <div>
+        <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+              type="button" role="tab" aria-controls="pills-home" aria-selected="true">DATOS DEL ESTUDIANTE</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile"
+              type="button" role="tab" aria-controls="pills-profile" aria-selected="false">DATOS DEL
+              REPRESENTANTE</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-disabled"
+              type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">DATOS DE LOS PADRES</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-disabled-tab" data-bs-toggle="pill" data-bs-target="#pills-XSD"
+              type="button" role="tab" aria-controls="pills-disabled" aria-selected="false">DATOS MEDICOS</button>
+          </li>
+        </ul>
+
+        <form action="{% url 'add_est' %}" method="post" class="was-validated" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab"
+              tabindex="0">
+
+              <h2 class="text-center align-items-center text-primary">DATOS DEL ESTUDIANTE</h2>
+              <div class="row">
+                <div class="form-group col-lg-6 col-md-6">
+                  <label for="exampleInputEmail1">Foto de perfil:</label> 
+                  <input type="file" class="form-control" aria-label="file example" name="txt" required>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <input value="{{request.user.id}}" type="text" class="form-control" hidden="hidden" name="id_usuario">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Nombres:</label>
+                  <input value="{{request.user.first_name}}" type="text" class="form-control " name="nombre_est"
+                    placeholder="Nombres" readonly>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Apellidos:</label>
+                  <input value="{{request.user.last_name}}" type="text" class="form-control " name="apellido_est"
+                    placeholder="Apellidos" readonly>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Nacionalidad:</label>
+                  <input type="text" class="form-control " name="nacional_est" placeholder="Nacionalidad" required aria-label="select example">
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                  <label for="exampleInputEmail1">Edad:</label>
+                  <input type="text" class="form-control " name="edad_est" placeholder="Edad" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                  <label for="exampleInputEmail1">Tipo de documento:</label>
+                  <select id="disabledSelect" name="docum_est" class="form-select" required aria-label="select example">
+                    <option value="">--- seleccionar ---</option>
+                    <option value="1">Cedula</option>
+                    <option value="2">Pasaporte</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                  <label for="exampleInputPassword1">Número de identificación:</label>
+                  <input type="text" class="form-control " name="numero_est" placeholder="Número de identificación" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-3 col-md-6 col-sm-12">
+                  <label>Género:</label>
+                  <select name="genero_est" class="form-select" required aria-label="select example">
+                    <option value="">--- seleccionar ---</option>
+                    <option value="1">Masculino</option>
+                    <option value="2">Femenino</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Etnia:</label>
+                  <select id="disabledSelect" name="etnia_est" class="form-select" required aria-label="select example">
+                    <option value="" >--- seleccionar ---</option>
+                    {% for cd in et %}
+                    <option value="{{cd.id}}">{{cd.name_et}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Fecha de nacimiento:</label>
+                  <input type="date" value="{{est.nacimiento_fecha|date:'Y-m-d'}}" class="form-control " name="fecha_est" placeholder="Dia/Mes/Año" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Celular:</label>
+                  <input type="text" class="form-control " name="celular_est" placeholder="celular" required aria-label="select example">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputPassword1">Correo electrónico:</label>
+                  <input type="text" class="form-control " name="email_est" placeholder="ejemplo@gmail.com" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputPassword1">Dirección:</label>
+                  <input type="text" class="form-control " name="dir_est" placeholder="dirección" required aria-label="select example">
+                </div>
+              </div>
+
+            </div>
+            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab"
+              tabindex="0">
+              <h2 class="text-center align-items-center text-primary">DATOS DEL REPRESENTANTE</h2>
+              <div class="row">
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputEmail1">Nombres y apellidos:</label>
+                  <input type="text" class="form-control " name="nombre_rep" placeholder="Nombres" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputPassword1">Número de identificación:</label>
+                  <input type="text" class="form-control " name="numero_rep" placeholder="N° identificación" required aria-label="select example">
+                </div>
+
+              </div>
+
+              <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Número de Celular:</label>
+                  <input type="text" class="form-control " name="celular_rep" placeholder="N° Celular" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Número Convencional:</label>
+                  <input type="text" class="form-control " name="tel_rep" placeholder="N° convencional" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Correo Electrónico:</label>
+                  <input type="text" class="form-control " name="email_rep" placeholder="ejemplo@gmail.com" required aria-label="select example">
+                </div>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="pills-disabled" role="tabpanel" aria-labelledby="pills-disabled-tab"
+              tabindex="0">
+              <h2 class="text-center align-items-center text-primary">DATOS DE LOS PADRES</h2>
+              <h4 class="text-center align-items-center text-primary">DATOS DE LA MADRE</h2>
+                <div class="row">
+                  <div class="form-group col-lg-6 col-md-12">
+                    <label for="exampleInputEmail1">Nombres y apellidos:</label>
+                    <input type="text" class="form-control " name="nombre_mom" placeholder="Nombres" required aria-label="select example">
+                  </div>
+                  <div class="form-group col-lg-6 col-md-12">
+                    <label for="exampleInputPassword1">Número de identificación:</label>
+                    <input type="text" class="form-control " name="cedula_mom" placeholder="N° identificación" required aria-label="select example">
+                  </div>
+
+                </div>
+                <div class="row">
+                  <div class="form-group col-lg-4 col-md-6">
+                    <label for="exampleInputEmail1">Número de Celular:</label>
+                    <input type="text" class="form-control " name="celular_mom" placeholder="N° Celular" required aria-label="select example">
+                  </div>
+                  <div class="form-group col-lg-4 col-md-6">
+                    <label for="exampleInputPassword1">Número Convencional:</label>
+                    <input type="text" class="form-control " name="tel_mom" placeholder="N° convencional" required aria-label="select example">
+                  </div>
+                  <div class="form-group col-lg-4 col-md-6">
+                    <label for="exampleInputPassword1">Correo Electrónico:</label>
+                    <input type="text" class="form-control " name="email_mom" placeholder="ejemplo@gmail.com" required aria-label="select example">
+                  </div>
+                </div>
+                <h4 class="text-center align-items-center text-primary">DATOS DEL PADRE</h2>
+                  <div class="row">
+                    <div class="form-group col-lg-6 col-md-12">
+                      <label for="exampleInputEmail1">Nombres y apellidos:</label>
+                      <input type="text" class="form-control " name="nombre_dad" placeholder="Nombres" required aria-label="select example">
+                    </div>
+                    <div class="form-group col-lg-6 col-md-12">
+                      <label for="exampleInputPassword1">Número de identificación:</label>
+                      <input type="text" class="form-control " name="cedula_dad" placeholder="N° identificación" required aria-label="select example">
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="form-group col-lg-4 col-md-6">
+                      <label for="exampleInputEmail1">Número de Celular:</label>
+                      <input type="text" class="form-control " name="celular_dad" placeholder="N° Celular" required aria-label="select example">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6">
+                      <label for="exampleInputPassword1">Número Convencional:</label>
+                      <input type="text" class="form-control " name="tel_dad" placeholder="N° convencional" required aria-label="select example">
+                    </div>
+                    <div class="form-group col-lg-4 col-md-6">
+                      <label for="exampleInputPassword1">Correo Electrónico:</label>
+                      <input type="text" class="form-control " name="email_dad" placeholder="ejemplo@gmail.com" required aria-label="select example">
+                    </div>
+                  </div>
+            </div>
+            <div class="tab-pane fade" id="pills-XSD" role="tabpanel" aria-labelledby="pills-disabled-tab" tabindex="0">
+              <h2 class="text-center align-items-center text-primary">DATOS MEDICOS</h2>
+              <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputEmail1">Tiene alergia:</label>
+                  <input type="text" class="form-control " name="alergia" placeholder="Si o No" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Tipo de alergia:</label>
+                  <input type="text" class="form-control " name="tipo_alergia" placeholder="T. Alergia" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Vacunada contra el COVID 19:</label>
+                  <input type="text" class="form-control " name="vacuna" placeholder="Si o No" required aria-label="select example">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Tipo de sangre:</label>
+                  <select id="disabledSelect" name="tipo_sangre" class="form-select" required aria-label="select example">
+                    <option value="">--- seleccionar ---</option>
+                    {% for i in ts %}
+                    <option value="{{i.id}}">{{i.name_ts}}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Tiene alguna Discapacidad:</label>
+                  <input type="text" class="form-control " name="discapacidad" placeholder="Si o No" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-4 col-md-6">
+                  <label for="exampleInputPassword1">Tipo de discapacidad:</label>
+                  <input type="text" class="form-control " name="tipo_discapacidad" placeholder="T. discapacidad" required aria-label="select example">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputEmail1">Nombre del Numero de Emergencia 1:</label>
+                  <input type="text" class="form-control " name="nombre_1" placeholder="Nombre y apellido" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputPassword1">Número de emergencia 1:</label>
+                  <input type="text" class="form-control " name="numero_1" placeholder="N°1" required aria-label="select example">
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputEmail1">Nombre del Numero de Emergencia 2:</label>
+                  <input type="text" class="form-control " name="nombre_2" placeholder="Nombre y apellido" required aria-label="select example">
+                </div>
+                <div class="form-group col-lg-6 col-md-12">
+                  <label for="exampleInputPassword1">Número de emergencia 2:</label>
+                  <input type="text" class="form-control " name="numero_2" placeholder="N°1" required aria-label="select example">
+                </div>
+              </div>
+              <div class="row justify-content-center">
+                <button type="submit" class="btn btn-primary m-4  col-auto w-25">
+                  Guardar e Imprimir <i class="bi bi-filetype-pdf"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>  
+  </main>
+</div>
+
+
+
+
+{% endblock %}
+
+{% block content1 %} {% endblock %}

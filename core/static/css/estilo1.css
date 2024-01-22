@@ -1,0 +1,59 @@
+.bg-color-f{
+    background-color:#1f53ef;
+    /*background-color: brown;*/
+}
+
+/*Fondo a ciertos botones con metodos overflow*/
+
+
+/*COLOR AZUL*/
+.bg-b-a{
+    background-color: #1f53ef;
+    color: white;
+}
+.bg-b-r{
+    background-color: red;
+    color: text;
+}
+
+/*COLOR ROJO*/
+
+
+.modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    outline: 0;
+}
+
+.cuadro_titulo {
+    height: 50px;
+    margin: -10px;
+    background-color: #1f53ef;
+    color: white;
+    padding: 14px;
+}
+
+.border-color{
+    border-color: #1f53ef;
+}
+.text-color{ 
+    color: #ffffff;
+}
+.box-shadow{
+    box-shadow: 1px 1px 25px 1px rgba(0, 0, 0, 0.589);
+}
+
+.logos {
+    color:white;
+}
+
+.ident i{
+    color: white;
+}    
